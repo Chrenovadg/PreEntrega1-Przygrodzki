@@ -7,10 +7,9 @@ var btnDelete = document.querySelector('btn__delete')
 var mainContainer = document.querySelector('.container');
 var modalContainer = document.querySelector('.modal');
 var taskList = document.querySelector('.tareas__lista'); 
-// Elemento donde se mostrarán las tareas
 var tareaContainer = document.querySelector('.tareas__container')
 
-// Array Tareas
+
 const tareas = []
 
 modalContainer.style.display = 'none';
