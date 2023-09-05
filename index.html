@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/switzer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <title>TITA - ¡Anotate todo!</title>
+</head>
+
+<body>
+
+    <main class="container">
+        <div class="todo__container animate__animated animate__fadeInDown">
+            <div class="titulo">
+                <h1 class="h1"> TITA </h1>
+            </div>
+
+            <div class="todo__create">
+                <span class="todo__span"> CREA UNA NUEVA NOTITA: </span>
+                <button
+                    class="btn__create animate__animated animate__heartBeat animate__delay-1s"></button>
+            </div>
+        </div>
+
+        <div class="tareas__container">
+
+            
+
+        </div>
+    </main>
+
+    <div class="modal modal--active">
+        <div class="modal__content">
+            <label for="modal__titulo" class="modal__titulo"> ¿Qué tarea tenés pendiente? </label>
+            <input type="text" id="nueva-nota-nombre" name="nueva-nota-nombre" class="input__nueva__nota" />
+
+            <div class="modal__buttons">
+                <button class="btn__save"></button>
+                <button class="btn__cancel"></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>
