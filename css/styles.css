@@ -114,6 +114,24 @@ body{
     animation: fadeInOut 0.2s alternate;
 }
 
+
+.btn__buscar{
+    color: #333333;
+    font-weight: 700;
+    background-color: #9cff33;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 10rem;
+    height: 5rem;
+    margin-top: 3rem;
+    
+    border-radius: 1rem;
+    border: 1px var(--border-color) solid;
+    box-shadow: 3px 3px var(--border-color);
+    transition: box-shadow 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
 @keyframes fadeInOut {
     0% {
       background-image: url('../img/add-circle-fill.svg'); /* Imagen de inicio */

@@ -1,52 +1,50 @@
+// Variables
 var btnCreate = document.querySelector('.btn__create');
 var btnSave = document.querySelector('.btn__save');
 var btnCancel = document.querySelector('.btn__cancel');
-var btnEdit = document.querySelector('btn__edit')
-var btnDelete = document.querySelector('btn__delete')
+var btnBuscar = document.querySelector('.btn__buscar');
+var tareaContainer = document.querySelector('.tareas__container');
 
-var mainContainer = document.querySelector('.container');
-var modalContainer = document.querySelector('.modal');
-var taskList = document.querySelector('.tareas__lista'); 
-var tareaContainer = document.querySelector('.tareas__container')
+const tareas = [];
 
-
-const tareas = []
-
-modalContainer.style.display = 'none';
-
+// Event listeners
 btnCreate.addEventListener('click', function() {
-    modalContainer.style.display = (modalContainer.style.display === 'none') ? 'block' : 'none';
-    mainContainer.style.filter =  ( mainContainer.style.filter === "blur(20px)") ? 'none' : 'blur(20px)';
-
+    // Mostrar el modal
+    document.querySelector('.modal').style.display = 'block';
+    document.querySelector('main').style.filter = 'blur(20px)';
     mostrarTareas();
 });
 
 btnCancel.addEventListener('click', function(){
-    modalContainer.style.display = (modalContainer.style.display === 'none') ? 'block' : 'none';
-    mainContainer.style.filter =  ( mainContainer.style.filter === "blur(20px)") ? 'none' : 'blur(20px)';
+    // Ocultar el modal
+    document.querySelector('.modal').style.display = 'none';
+    document.querySelector('main').style.filter = 'none';
 });
 
 btnSave.addEventListener('click', function(){
     const nuevaTareaTexto = document.getElementById('nueva-nota-nombre').value; 
 
     if (nuevaTareaTexto.trim() !== '') {
-        tareas.push(nuevaTareaTexto)
+        // Agregar la nueva tarea al array
+        tareas.push(nuevaTareaTexto);
 
-        document.getElementById('nueva-nota-nombre').value = ''
+        document.getElementById('nueva-nota-nombre').value = '';
+        
+        // Ocultar el modal
+        document.querySelector('.modal').style.display = 'none';
+        document.querySelector('main').style.filter = 'none';
 
-        mostrarTareas()
-
-        modalContainer.style.display = (modalContainer.style.display === 'none') ? 'block' : 'none';
-        mainContainer.style.filter =  ( mainContainer.style.filter === "blur(20px)") ? 'none' : 'blur(20px)';
+        mostrarTareas();
     }
 });
 
 function mostrarTareas(){
-    tareaContainer.innerHTML = '' 
+    tareaContainer.innerHTML = '';
 
-    for (let i = 0; i < tareas.length; i++) { 
+    for (let i = 0; i < tareas.length; i++) {
         const tareaTexto = tareas[i];
 
+        // Crear elementos HTML para mostrar las tareas
         const nuevoItemTarea = document.createElement('div');
         nuevoItemTarea.className = 'tareas__lista animate__animated animate__zoomIn';
         nuevoItemTarea.innerHTML = `
@@ -59,37 +57,45 @@ function mostrarTareas(){
                 </div>
             </div> 
             <div class="tarea__btn">
-                <button class="btn__edit"></button>
-                <button class="btn__delete"></button>
+                <button class="btn__edit">Editar</button>
+                <button class="btn__delete">Eliminar</button>
             </div>
         `;
+
         tareaContainer.appendChild(nuevoItemTarea);
 
         const btnEdit = nuevoItemTarea.querySelector('.btn__edit');
         const btnDelete = nuevoItemTarea.querySelector('.btn__delete');
 
         btnEdit.addEventListener('click', function() {
-            editarTarea(i);
+            // editar la tarea
+            const editarTextoTarea = prompt('Editar tarea:', tareas[i]);
+            if (editarTextoTarea !== null) {
+                tareas[i] = editarTextoTarea.trim();
+                mostrarTareas();
+            }
         });
 
         btnDelete.addEventListener('click', function() {
-            borrarTarea(i);
+            // borrar la tarea
+            if (confirm('¿Segur@ que querés eliminar esta tarea?')) {
+                tareas.splice(i, 1);
+                mostrarTareas();
+            }
         });
     }
 }
 
-
-function editarTarea(index) {
-    const editarTextoTarea = prompt('Editar tarea:', tareas[index]);
-    if (editarTextoTarea !== null) {
-        tareas[index] = editarTextoTarea.trim();
-        mostrarTareas();
-    }
+function buscarTarea(textoABuscar) {
+    const resultado = tareas.filter(tarea => tarea.includes(textoABuscar));
+    return resultado;
 }
 
-function borrarTarea(index) {
-    if (confirm('¿Segur@ que querés eliminar esta tarea?')) {
-        tareas.splice(index, 1);
-        mostrarTareas();
+btnBuscar.addEventListener('click', function(){
+    const textoBuscado = prompt('¿Qué tarea quieres buscar?')
+
+    if(textoBuscado !== null){
+        const resultados = buscarTarea(textoBuscado);
+        console.log(resultados);
     }
-}
+});
