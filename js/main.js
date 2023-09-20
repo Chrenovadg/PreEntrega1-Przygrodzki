@@ -57,8 +57,8 @@ function mostrarTareas(){
                 </div>
             </div> 
             <div class="tarea__btn">
-                <button class="btn__edit">Editar</button>
-                <button class="btn__delete">Eliminar</button>
+                <button class="btn__edit"></button>
+                <button class="btn__delete"></button>
             </div>
         `;
 
