@@ -115,15 +115,15 @@ body{
 }
 
 
-.btn__buscar{
+.inputSearch{
     color: #333333;
     font-weight: 700;
     background-color: #9cff33;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 10rem;
-    height: 5rem;
+    width: clamp(5rem, 100%, 20rem);
+    height: 4rem;
     margin-top: 3rem;
     
     border-radius: 1rem;
@@ -150,12 +150,10 @@ body{
     margin: 2rem 0;
 }
 
-
-
 .tarea{
     max-width: 100%;
     background: var(--bg-dg-nota);
-    border-radius: 2rem 2rem;
+    border-radius: 0 2rem 1rem 1rem;
     border: 1px var(--border-color) solid;
     box-shadow: 3px 3px var(--border-color);
     transition: box-shadow 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
@@ -185,6 +183,8 @@ body{
     padding: 20px;
     word-wrap: break-word;
     white-space: normal;
+    display: flex;
+    align-items: center;
 }
 
 
@@ -193,6 +193,7 @@ body{
     font-size: clamp(.5rem, 8vw, 2rem);
     text-transform: uppercase;
     font-weight: 700;
+    margin: 0 20px;
 }
 
 .tarea__btn{
@@ -214,6 +215,7 @@ body{
     height: 2rem;
     cursor: pointer;
     transition: box-shadow 0.3s ease-in-out;
+    margin: 0 2px;
 }
 
 .btn__edit:hover{
@@ -229,6 +231,7 @@ body{
     height: 2rem;
     cursor: pointer;
     transition: box-shadow 0.3s ease-in-out;
+    margin: 0 2px;
 }
 
 .btn__delete:hover{

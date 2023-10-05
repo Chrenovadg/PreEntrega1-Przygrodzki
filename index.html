@@ -14,41 +14,40 @@
 
 <body>
 
-    <main class="container">
+    <main class="container app">
         <div class="todo__container animate__animated animate__fadeInDown">
             <div class="titulo">
                 <h1 class="h1"> TITA </h1>
+                <span class="todo__span"> 🧀 CREANDO NOTITAS 🐁 </span>
             </div>
-
+            <div class="fecha"></div>
             <div class="todo__create">
-                <span class="todo__span"> CREA UNA NUEVA NOTITA: </span>
                 <button
                     class="btn__create animate__animated animate__heartBeat animate__delay-1s"></button>
             </div>
 
-            <button class="btn__buscar">Buscar 🔍</button>
+            <input type="text" class="inputSearch">
         </div>
 
-        <div class="tareas__container">
-
-            
-
-        </div>
+        <div class="tareas__container"> <!-- CONTENDOR DE TAREAS --> </div>
     </main>
 
-    <div class="modal modal--active">
-        <div class="modal__content">
-            <label for="modal__titulo" class="modal__titulo"> ¿Qué tarea tenés pendiente? </label>
-            <input type="text" id="nueva-nota-nombre" name="nueva-nota-nombre" class="input__nueva__nota" />
-
-            <div class="modal__buttons">
-                <button type="submit" class="btn__save"></button>
-                <button type="reset" class="btn__cancel"></button>
-            </div>
+        <div class="modal modal--active">
+            <form id="taskForm" class="modal__content">
+                <div class="modal__content">
+                    <label for="modal__titulo" class="modal__titulo"> ¿Qué tarea tenés pendiente? </label>
+                    <input type="text" id="nueva-nota-nombre" name="nueva-nota-nombre" class="input__nueva__nota" />
+        
+                    <div class="modal__buttons">
+                        <button type="submit" class="btn__save"></button>
+                        <button type="reset" class="btn__cancel"></button>
+                    </div>
+                </div>
+            </form>
         </div>
-    </div>
 
-    <script src="js/main.js"></script>
+    <script type="module" src="js/variables.js"></script>
+    <script type="module" src="js/main.js"></script>
 </body>
 
 </html>

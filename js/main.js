@@ -1,101 +1,139 @@
-// Variables
-var btnCreate = document.querySelector('.btn__create');
-var btnSave = document.querySelector('.btn__save');
-var btnCancel = document.querySelector('.btn__cancel');
-var btnBuscar = document.querySelector('.btn__buscar');
-var tareaContainer = document.querySelector('.tareas__container');
+import { modal, main, btnCreate, btnSave, btnCancel, form, inputSearch, tareaContainer, fechaNota } from './variables.js';
 
-const tareas = [];
 
-// Event listeners
-btnCreate.addEventListener('click', function() {
-    // Mostrar el modal
-    document.querySelector('.modal').style.display = 'block';
-    document.querySelector('main').style.filter = 'blur(20px)';
+let textoBuscado = '';
+
+// Array contenedor de las tareas
+const tareas = localStorage.getItem('tareas') ? JSON.parse(localStorage.getItem('tareas')) : [];
+
+modal.style.display = 'none';
+
+window.addEventListener("load", (event) => {
     mostrarTareas();
+    mostrarFecha();
+});
+
+btnCreate.addEventListener('click', function() {
+    modal.style.display = '';
+    main.style.filter = 'blur(20px)';
 });
 
 btnCancel.addEventListener('click', function(){
-    // Ocultar el modal
-    document.querySelector('.modal').style.display = 'none';
-    document.querySelector('main').style.filter = 'none';
+    modal.style.display = 'none';
+    main.style.filter = 'none';
 });
 
+
+// Boton Guardar
 btnSave.addEventListener('click', function(){
     const nuevaTareaTexto = document.getElementById('nueva-nota-nombre').value; 
 
     if (nuevaTareaTexto.trim() !== '') {
-        // Agregar la nueva tarea al array
         tareas.push(nuevaTareaTexto);
-
         document.getElementById('nueva-nota-nombre').value = '';
-        
-        // Ocultar el modal
-        document.querySelector('.modal').style.display = 'none';
-        document.querySelector('main').style.filter = 'none';
-
+        localStorage.setItem('tareas', JSON.stringify(tareas));
+        modal.style.display = 'none';
+        main.style.filter = 'none';
         mostrarTareas();
     }
 });
 
+
+// Muestra las tareas guardadas
 function mostrarTareas(){
     tareaContainer.innerHTML = '';
 
-    for (let i = 0; i < tareas.length; i++) {
+    for (let i = tareas.length - 1; i >= 0; i--) {
         const tareaTexto = tareas[i];
-
-        // Crear elementos HTML para mostrar las tareas
         const nuevoItemTarea = document.createElement('div');
         nuevoItemTarea.className = 'tareas__lista animate__animated animate__zoomIn';
         nuevoItemTarea.innerHTML = `
-            <div class="tarea__input">
-                <input class="tarea__check" type="checkbox">
-            </div>
             <div class="tarea">
                 <div class="tarea__items">
                     <label class="tarea__label">${tareaTexto}</label>
+                    <input class="tarea__input-edit" type="text">
+                    <button class="btn__edit"></button>
+                    <button class="btn__save-edit">Guardar</buttons>
+                    <button class="btn__delete"></button>
                 </div>
             </div> 
-            <div class="tarea__btn">
-                <button class="btn__edit"></button>
-                <button class="btn__delete"></button>
-            </div>
         `;
 
+        
         tareaContainer.appendChild(nuevoItemTarea);
 
         const btnEdit = nuevoItemTarea.querySelector('.btn__edit');
+        const btnSaveEdit = nuevoItemTarea.querySelector('.btn__save-edit');
         const btnDelete = nuevoItemTarea.querySelector('.btn__delete');
+        const tareaLabel = nuevoItemTarea.querySelector('.tarea__label');
+        const tareaInputEdit = nuevoItemTarea.querySelector('.tarea__input-edit');
+        
+        btnSaveEdit.style.display = 'none';
+        tareaInputEdit.style.display = 'none'
 
         btnEdit.addEventListener('click', function() {
-            // editar la tarea
-            const editarTextoTarea = prompt('Editar tarea:', tareas[i]);
-            if (editarTextoTarea !== null) {
-                tareas[i] = editarTextoTarea.trim();
+            tareaLabel.style.display = 'none';
+            tareaInputEdit.style.display = '';
+            btnEdit.style.display = 'none';
+            btnSaveEdit.style.display = '';
+            tareaInputEdit.value = tareaTexto;
+        });
+
+        // Boton Editar
+        btnSaveEdit.addEventListener('click', function() {
+            const editarTextoTarea = tareaInputEdit.value.trim();
+            if (editarTextoTarea !== '') {
+                tareas[i] = editarTextoTarea;
+                localStorage.setItem('tareas', JSON.stringify(tareas));
                 mostrarTareas();
             }
         });
 
+        // Boton Delete
         btnDelete.addEventListener('click', function() {
-            // borrar la tarea
             if (confirm('¿Segur@ que querés eliminar esta tarea?')) {
                 tareas.splice(i, 1);
+                localStorage.setItem('tareas', JSON.stringify(tareas));
                 mostrarTareas();
             }
         });
     }
 }
 
-function buscarTarea(textoABuscar) {
-    const resultado = tareas.filter(tarea => tarea.includes(textoABuscar));
-    return resultado;
-}
+// Busqueda por letra/nombre de cada tarea
+inputSearch.addEventListener('keyup', function(){
+    textoBuscado = inputSearch.value;
+    const tareasCargadas = Array.from(document.querySelectorAll('.tareas__lista'));
 
-btnBuscar.addEventListener('click', function(){
-    const textoBuscado = prompt('¿Qué tarea quieres buscar?')
+    tareasCargadas.forEach(div => {
+        const label = div.querySelector('.tarea__label');
 
-    if(textoBuscado !== null){
-        const resultados = buscarTarea(textoBuscado);
-        console.log(resultados);
+        if (label.textContent.toLowerCase().includes(textoBuscado.toLowerCase())) {
+            div.style.display = '';
+        } else {
+            div.style.display = 'none';
+        }
+    });
+});
+
+// Previene la recarga de la pagina al enviar el form
+form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const nuevaTareaTexto = document.getElementById('nueva-nota-nombre').value;
+
+    if (nuevaTareaTexto.trim() !== '') {
+        tareas.push(nuevaTareaTexto);
+        document.getElementById('nueva-nota-nombre').value = '';
+        localStorage.setItem('tareas', JSON.stringify(tareas));
+        document.querySelector('.modal').style.display = 'none';
+        document.querySelector('main').style.filter = 'none';
+        mostrarTareas();
     }
 });
+
+// Mostrar fecha actual
+function mostrarFecha(){
+    let fecha = new Date();
+    fecha = fecha.toString().split(" ");
+    fechaNota.innerHTML = fecha[2] + " " + fecha[1] + " " + fecha[3][2] + fecha[3][3];
+}
